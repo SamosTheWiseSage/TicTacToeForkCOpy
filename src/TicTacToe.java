@@ -1,6 +1,8 @@
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 
@@ -40,7 +42,14 @@ public class TicTacToe extends JFrame {
 
         for (int i = 0; i < 9; i++) {
             Font f = new Font("Open sans", Font.BOLD, 50);
-            JButton jb = new JButton((i % 2 < 1) ? "x" : "o");
+            JButton jb = new JButton();//((i % 2 < 1) ? "x" : "o");
+            jb.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    System.out.println("snopp");
+
+                }
+            });
             jb.setFont(f);
             cellList.add(jb);
             panel.add(jb);
