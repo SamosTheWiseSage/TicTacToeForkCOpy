@@ -11,7 +11,7 @@ public class TicTacToe extends JFrame {
     // ni kan ha 2d array [][] för cellerna också
     static ArrayList<JButton> cellList = new ArrayList<>();
     private static TicTacToe application;
-
+    public static JPanel panel = new JPanel();
     public TicTacToe() {
         setSize(500, 500);
         setVisible(true);
@@ -28,7 +28,7 @@ public class TicTacToe extends JFrame {
         //skapa bättre struktur med GUI som displayar info som player turn och vem som har vunnit.
         //skapa en knapp för att kunna byta gamemode
 
-        JPanel panel = new JPanel();
+
         panel.setBorder(new EmptyBorder(UNI_PADDING, UNI_PADDING, UNI_PADDING, UNI_PADDING));
         panel.setBackground(Color.lightGray);
         panel.setSize(300, 300);
@@ -38,6 +38,35 @@ public class TicTacToe extends JFrame {
         gl.setVgap(UNI_PADDING);
         panel.setLayout(gl);
 
+
+
+        application.add(panel);
+        application.setVisible(true);
+
+        changeGameMode();
+        PlayGame();
+    }
+
+    public static void changeGameMode(){
+        // skapa en panel med er custom game mode
+        JDialog frame = new JDialog(application, "Game mode", true);
+        JPanel dialog = new JPanel();
+        frame.add(dialog);
+        dialog.setSize(100, 100);
+        LayoutManager FlowLayout = new FlowLayout();
+        dialog.setLayout(FlowLayout);
+        dialog.setSize(100, 100);
+        JButton gameMode1 = new JButton("PvP");
+        JButton gameMode2 = new JButton("PvTerminator");
+        dialog.add(gameMode1);
+        dialog.add(gameMode2);
+        frame.setResizable(false);
+        frame.pack();
+        frame.setVisible(true);
+
+    }
+
+    public static void PlayGame(){
         for (int i = 0; i < 9; i++) {
             Font f = new Font("Open sans", Font.BOLD, 50);
             JButton jb = new JButton((i % 2 < 1) ? "x" : "o");
@@ -45,19 +74,6 @@ public class TicTacToe extends JFrame {
             cellList.add(jb);
             panel.add(jb);
         }
-
-        application.add(panel);
-        application.setVisible(true);
-
-        changeGameMode();
-    }
-
-    public static void changeGameMode(){
-        // skapa en panel med er custom game mode
-        final JDialog frame = new JDialog(application, "Game mode", true);
-        frame.getContentPane().add(new JPanel());
-        frame.pack();
-        frame.setVisible(true);
     }
 
     public static boolean checkWinOrDraw(){
