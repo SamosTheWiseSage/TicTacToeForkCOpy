@@ -6,8 +6,12 @@ import java.awt.event.ActionListener;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 
+<<<<<<< Updated upstream
 public class TicTacToe extends JFrame {
     public static final String ICON_URL = "src/icon-05.png";
+=======
+public class TicTacToe extends JFrame implements ActionListener {
+>>>>>>> Stashed changes
     static int gameMode = 0; //använd variabeln eller likande för gamemode
     static final int UNI_PADDING = 10;
     // ni kan ha 2d array [][] för cellerna också
@@ -35,6 +39,16 @@ public class TicTacToe extends JFrame {
         panel.setBackground(Color.lightGray);
         panel.setSize(300, 300);
 
+<<<<<<< Updated upstream
+=======
+        //Adding a panel to display a texfield we can view information in
+        JPanel panelTop = new JPanel();
+        JTextField textField = new JTextField("Här hamnar info");
+        panelTop.add(textField);
+        application.add(panelTop, BorderLayout.NORTH);
+
+        //Gridlayout for my buttons
+>>>>>>> Stashed changes
         GridLayout gl = new GridLayout(3, 3);
         gl.setHgap(UNI_PADDING);
         gl.setVgap(UNI_PADDING);
@@ -85,5 +99,10 @@ public class TicTacToe extends JFrame {
         } catch (final SecurityException e) {
             System.out.println("There was a security exception for: 'taskbar.setIconImage'");
         }
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+
     }
 }
