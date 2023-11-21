@@ -3,20 +3,22 @@ import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.lang.reflect.Method;
-import java.util.ArrayList;
+
+import static java.lang.Integer.parseInt;
 
 public class TicTacToe extends JFrame {
+    static JTextField outputTF;
     static int gameMode = 0; //använd variabeln eller likande för gamemode
     static final int UNI_PADDING = 10;
     static JButton [] arrayJB =  new JButton[9];
+    static boolean startGame;
     private static TicTacToe application;
+
 
     public TicTacToe() {
         setSize(500, 500);
         setVisible(true);
     }
-
     public static void main(String[] args) {
         //Application eller frame
         application = new TicTacToe();
@@ -25,19 +27,19 @@ public class TicTacToe extends JFrame {
         application.setLayout(new BorderLayout());
 
         //JPanel som rymmer JButtons
-        JPanel panel = new JPanel();
-        panel.setBorder(new EmptyBorder(UNI_PADDING, UNI_PADDING, UNI_PADDING, UNI_PADDING));
-        panel.setBackground(Color.lightGray);
-        panel.setSize(300, 300);
+        JPanel panelJB = new JPanel();
+        panelJB.setBorder(new EmptyBorder(UNI_PADDING, UNI_PADDING, UNI_PADDING, UNI_PADDING));
+        panelJB.setBackground(Color.lightGray);
+        panelJB.setSize(300, 300);
 
         //Gridlayout för att JButtons skall displayas rätt
         GridLayout gl = new GridLayout(3, 3);
         gl.setHgap(UNI_PADDING);
         gl.setVgap(UNI_PADDING);
-        panel.setLayout(gl);
+        panelJB.setLayout(gl);
 
         //Textfield för att displaya vems tur det är och så vidare.
-        JTextField outputTF = new JTextField("Här kommer det komma grejer");
+        outputTF = new JTextField("Här kommer det komma grejer");
         Font bigFont = outputTF.getFont().deriveFont(Font.PLAIN, 30f);
         outputTF.setFont(bigFont);
         JPanel panelTop = new JPanel();
@@ -45,20 +47,48 @@ public class TicTacToe extends JFrame {
         outputTF.setBorder(BorderFactory.createLineBorder(Color.black, 5));
         application.add(panelTop, BorderLayout.NORTH);
 
+        //For-loop som bygger våra JButtons
         for (int i = 0; i < 9; i++) {
+            Font f = new Font("Open sans", Font.BOLD, 50);
             arrayJB[i] = new JButton();
             arrayJB[i].addActionListener(listener);
-            panel.add(arrayJB[i]);
+            arrayJB[i].setFont(f);
+            arrayJB[i].setActionCommand(i+"");
+            panelJB.add(arrayJB[i]);
         }
-        application.add(panel);
+        application.add(panelJB);
         application.setVisible(true);
         //changeGameMode();
     }
     static ActionListener listener = new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
+        //For-loop för att köra if-statements 9 gånger(alla knappar) som sätter X/O på knapparna och byter spelare efter varje klick.
+            for (int i=0;i<9;i++){
+                if(e.getSource()==arrayJB[i]){
+                    if(startGame){
+                        if (arrayJB[i].getText()=="") {
+                            arrayJB[i].setText("X");
+                            outputTF.setText("X turn");
+                            startGame=false;
+                            //Här måste vi bygga klart metoden för att kolla om X/O har vunnit, förlorat eller fått slut på drag
+                            checkWinOrDraw();
+                        }
+                    }else { if (arrayJB[i].getText()==""){
+                            arrayJB[i].setText("O");
+                            outputTF.setText("O turn");
+                            startGame=true;
+                            checkWinOrDraw();
+                        }
+                    }
+                }
+            }
+
             if (e.getSource() instanceof JButton) {
-                System.out.println("snopp");
+                String text = e.getActionCommand();
+                int i = parseInt(text);
+                System.out.println("Knappen funkar");
+
             }
         }
     };
