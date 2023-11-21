@@ -68,14 +68,14 @@ public class TicTacToe extends JFrame {
                 if(e.getSource()==arrayJB[i]){
                     if(startGame){
                         if (arrayJB[i].getText()=="") {
-                            arrayJB[i].setText("X");
+                            arrayJB[i].setText("O");
                             outputTF.setText("X turn");
                             startGame=false;
                             //Här måste vi bygga klart metoden för att kolla om X/O har vunnit, förlorat eller fått slut på drag
                             checkWinOrDraw();
                         }
                     }else { if (arrayJB[i].getText()==""){
-                            arrayJB[i].setText("O");
+                            arrayJB[i].setText("X");
                             outputTF.setText("O turn");
                             startGame=true;
                             checkWinOrDraw();
