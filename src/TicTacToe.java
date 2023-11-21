@@ -19,6 +19,9 @@ public class TicTacToe extends JFrame {
     static boolean startGame;
     //Vårt spel
     private static TicTacToe application;
+    static JPanel players = new JPanel();
+    static JLabel p1 = new JLabel(" ");
+    static JLabel p2 = new JLabel(" ");
 
 
     public TicTacToe() {
@@ -45,11 +48,17 @@ public class TicTacToe extends JFrame {
         panelJB.setLayout(gl);
 
         //Textfield för att displaya vems tur det är och så vidare.
-        outputTF = new JTextField("Welcome players!");
+        outputTF = new JTextField("TicTacToe");
+        outputTF.setHorizontalAlignment(SwingConstants.CENTER);
         Font bigFont = outputTF.getFont().deriveFont(Font.PLAIN, 30f);
         outputTF.setFont(bigFont);
         JPanel panelTop = new JPanel();
-        panelTop.add(outputTF);
+        panelTop.setLayout(new BorderLayout());
+        panelTop.add(outputTF, BorderLayout.NORTH);
+        panelTop.add(players, BorderLayout.SOUTH);
+        players.setLayout(new FlowLayout());
+        players.add(p1);
+        players.add(p2);
         outputTF.setBorder(BorderFactory.createLineBorder(Color.black, 5));
         application.add(panelTop, BorderLayout.NORTH);
 
@@ -64,7 +73,7 @@ public class TicTacToe extends JFrame {
         }
         application.add(panelJB);
         application.setVisible(true);
-        //changeGameMode();
+        changeGameMode();
     }
     //ActionListener till våra knappar för att kunna köra spelet
     static ActionListener listener = new ActionListener() {
@@ -98,15 +107,46 @@ public class TicTacToe extends JFrame {
             }
         }
     };
-    /*
+
     public static void changeGameMode(){
         // skapa en panel med er custom game mode
-        final JDialog frame = new JDialog(application, "Game mode", true);
-        frame.getContentPane().add(new JPanel());
+        JDialog frame = new JDialog(application, "Game mode", true);
+        JPanel dialog = new JPanel();
+        frame.setLocation(150, 250);
+        frame.add(dialog);
+        dialog.setSize(100, 100);
+        LayoutManager FlowLayout = new FlowLayout();
+        dialog.setLayout(FlowLayout);
+        dialog.setSize(100, 100);
+        JButton gameMode1 = new JButton("PvP");
+        gameMode1.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                outputTF.setText("Welcome players!");
+                outputTF.setHorizontalAlignment(SwingConstants.CENTER);
+                p1.setText("PLAYER 1");
+                p2.setText("PLAYER 2");
+                frame.setVisible(false);
+            }
+        });
+        JButton gameMode2 = new JButton("PvTerminator");
+        gameMode2.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                outputTF.setText("Welcome players!");
+                outputTF.setHorizontalAlignment(SwingConstants.CENTER);
+                p1.setText("PLAYER 1");
+                p2.setText("TERMINATOR");
+                frame.setVisible(false);
+            }
+        });
+        dialog.add(gameMode1);
+        dialog.add(gameMode2);
+        frame.setResizable(false);
         frame.pack();
         frame.setVisible(true);
+
     }
-     */
     // GETA YOU GO HERE
     public static boolean checkWinOrDraw(){
         // kod för spelet avslutas
