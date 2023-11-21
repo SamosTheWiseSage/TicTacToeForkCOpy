@@ -7,11 +7,9 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 
 public class TicTacToe extends JFrame {
-    public static final String ICON_URL = "src/icon-05.png";
     static int gameMode = 0; //använd variabeln eller likande för gamemode
     static final int UNI_PADDING = 10;
-    // ni kan ha 2d array [][] för cellerna också
-    static ArrayList<JButton> cellList = new ArrayList<>();
+    static JButton [] arrayJB =  new JButton[9];
     private static TicTacToe application;
 
     public TicTacToe() {
@@ -20,47 +18,51 @@ public class TicTacToe extends JFrame {
     }
 
     public static void main(String[] args) {
+        //Application eller frame
         application = new TicTacToe();
         application.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        Image iconImage= new ImageIcon("src/icon-05.png").getImage();
-        application.setIconImage(iconImage);
-        application.setTaskbarIcon(iconImage); //mac har dockad icon
         application.setResizable(false);
+        application.setLayout(new BorderLayout());
 
-        //skapa bättre struktur med GUI som displayar info som player turn och vem som har vunnit.
-        //skapa en knapp för att kunna byta gamemode
-
+        //JPanel som rymmer JButtons
         JPanel panel = new JPanel();
         panel.setBorder(new EmptyBorder(UNI_PADDING, UNI_PADDING, UNI_PADDING, UNI_PADDING));
         panel.setBackground(Color.lightGray);
         panel.setSize(300, 300);
 
+        //Gridlayout för att JButtons skall displayas rätt
         GridLayout gl = new GridLayout(3, 3);
         gl.setHgap(UNI_PADDING);
         gl.setVgap(UNI_PADDING);
         panel.setLayout(gl);
 
+        //Textfield för att displaya vems tur det är och så vidare.
+        JTextField outputTF = new JTextField("Här kommer det komma grejer");
+        Font bigFont = outputTF.getFont().deriveFont(Font.PLAIN, 30f);
+        outputTF.setFont(bigFont);
+        JPanel panelTop = new JPanel();
+        panelTop.add(outputTF);
+        outputTF.setBorder(BorderFactory.createLineBorder(Color.black, 5));
+        application.add(panelTop, BorderLayout.NORTH);
+
         for (int i = 0; i < 9; i++) {
-            Font f = new Font("Open sans", Font.BOLD, 50);
-            JButton jb = new JButton();//((i % 2 < 1) ? "x" : "o");
-            jb.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    System.out.println("snopp");
-
-                }
-            });
-            jb.setFont(f);
-            cellList.add(jb);
-            panel.add(jb);
+            arrayJB[i] = new JButton();
+            arrayJB[i].addActionListener(listener);
+            panel.add(arrayJB[i]);
         }
-
         application.add(panel);
         application.setVisible(true);
-
-        changeGameMode();
+        //changeGameMode();
     }
-
+    static ActionListener listener = new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            if (e.getSource() instanceof JButton) {
+                System.out.println("snopp");
+            }
+        }
+    };
+    /*
     public static void changeGameMode(){
         // skapa en panel med er custom game mode
         final JDialog frame = new JDialog(application, "Game mode", true);
@@ -68,12 +70,13 @@ public class TicTacToe extends JFrame {
         frame.pack();
         frame.setVisible(true);
     }
-
+     */
+    // GETA YOU GO HERE
     public static boolean checkWinOrDraw(){
         // kod för spelet avslutas
         return false; //true  when draw/win
     }
-
+    /*
     public void setTaskbarIcon(Image image) { // förmodligen apple docked iconen
         final Taskbar taskbar = Taskbar.getTaskbar();
 
@@ -85,5 +88,5 @@ public class TicTacToe extends JFrame {
         } catch (final SecurityException e) {
             System.out.println("There was a security exception for: 'taskbar.setIconImage'");
         }
-    }
+    }*/
 }
