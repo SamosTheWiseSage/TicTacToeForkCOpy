@@ -1,4 +1,4 @@
- public static boolean checkWinOrDraw(){
+ /*public static boolean checkWinOrDraw(){
         counter++;
         if (counter == 9){
             JDialog d = new JDialog(application, "dialog Box");
@@ -81,3 +81,4 @@
 
         return true;
     }
+*/

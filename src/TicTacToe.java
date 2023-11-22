@@ -22,7 +22,7 @@ public class TicTacToe extends JFrame {
     static JPanel players = new JPanel();
     static JLabel p1 = new JLabel(" ");
     static JLabel p2 = new JLabel(" ");
-
+    static int counter = 0;
 
     public TicTacToe() {
         setSize(500, 500);
@@ -99,12 +99,6 @@ public class TicTacToe extends JFrame {
                     }
                 }
             }
-            //För att kolla så vår knapp funkar, plocka bort när vi är klara!!!
-            if (e.getSource() instanceof JButton) {
-                String text = e.getActionCommand();
-                int i = parseInt(text);
-                System.out.println("Knappen funkar");
-            }
         }
     };
 
@@ -149,20 +143,72 @@ public class TicTacToe extends JFrame {
     }
     // GETA YOU GO HERE
     public static boolean checkWinOrDraw(){
-        // kod för spelet avslutas
-        return false; //true  when draw/win
-    }
-    /*
-    public void setTaskbarIcon(Image image) { // förmodligen apple docked iconen
-        final Taskbar taskbar = Taskbar.getTaskbar();
-
-        try {
-            //set icon for Mac Os (and other systems which do support this method)
-            taskbar.setIconImage(image);
-        } catch (final UnsupportedOperationException e) {
-            System.out.println("The os does not support: 'taskbar.setIconImage'");
-        } catch (final SecurityException e) {
-            System.out.println("There was a security exception for: 'taskbar.setIconImage'");
+        counter++;
+        if (counter == 9){
+            JDialog d = new JDialog(application, "dialog Box");
+            // create a label
+            JLabel l = new JLabel("It IS A DRAW. PLAY AGAIN?");
+            d.add(l);
+            // setsize of dialog
+            d.setSize(100, 100);
+            // set visibility of dialog
+            d.setVisible(true);
         }
-    }*/
+        if (arrayJB[1].getText() == "X" &&
+                arrayJB[4].getText() == "X"&&
+                arrayJB[7].getText() == "X" || arrayJB[0].getText() == "X" &&
+                arrayJB[4].getText() == "X"&&
+                arrayJB[8].getText() == "X" ||arrayJB[2].getText() == "X" &&
+                arrayJB[4].getText() == "X"&&
+                arrayJB[6].getText() == "X" || arrayJB[3].getText() == "X" &&
+                arrayJB[4].getText() == "X"&&
+                arrayJB[5].getText() == "X" || arrayJB[0].getText() == "X" &&
+                arrayJB[3].getText() == "X"&&
+                arrayJB[6].getText() == "X" || arrayJB[2].getText() == "X" &&
+                arrayJB[5].getText() == "X"&&
+                arrayJB[8].getText() == "X" || arrayJB[0].getText() == "X" &&
+                arrayJB[1].getText() == "X"&&
+                arrayJB[2].getText() == "X" || arrayJB[6].getText() == "X" &&
+                arrayJB[7].getText() == "X"&&
+                arrayJB[8].getText() == "X") {
+            // now the code begins this is to make spottin it easier
+            JDialog d = new JDialog(application, "dialog Box");
+            // create a label
+            JLabel l = new JLabel("Player X has won!");
+            d.add(l);
+            // setsize of dialog
+            d.setSize(100, 100);
+            // set visibility of dialog
+            d.setVisible(true);
+
+        } else if (arrayJB[1].getText() == "O" &&
+                arrayJB[4].getText() == "O"&&
+                arrayJB[7].getText() == "O" || arrayJB[0].getText() == "O" &&
+                arrayJB[4].getText() == "O"&&
+                arrayJB[8].getText() == "O" ||arrayJB[2].getText() == "O" &&
+                arrayJB[4].getText() == "O"&&
+                arrayJB[6].getText() == "O" || arrayJB[3].getText() == "O" &&
+                arrayJB[4].getText() == "O"&&
+                arrayJB[5].getText() == "O" || arrayJB[0].getText() == "O" &&
+                arrayJB[3].getText() == "O"&&
+                arrayJB[6].getText() == "O" || arrayJB[2].getText() == "O" &&
+                arrayJB[5].getText() == "O"&&
+                arrayJB[8].getText() == "O" || arrayJB[0].getText() == "O" &&
+                arrayJB[1].getText() == "O"&&
+                arrayJB[2].getText() == "O" || arrayJB[6].getText() == "O" &&
+                arrayJB[7].getText() == "O"&&
+                arrayJB[8].getText() == "O") {
+            // now the code begins this is to make spottin it easier
+            JDialog d = new JDialog(application, "dialog Box");
+            // create a label
+            JLabel l = new JLabel("Player O has won!");
+            d.add(l);
+            // setsize of dialog
+            d.setSize(100, 100);
+            // set visibility of dialog
+            d.setVisible(true);
+
+        }
+        return true;
+    }
 }
