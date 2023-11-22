@@ -1,33 +1,69 @@
+import javax.sound.sampled.*;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.IOException;
+import java.net.URL;
 
 public class TicTacToe extends JFrame {
+    //Padding för att knapparna skall se mer ordnade ut
+    static final int UNI_PADDING = 10;
     //TextField som visar meddelanden till spelare
     static JTextField outputTF;
     //Andreas, ska vi använda denna?
     static int gameMode = 0; //använd variabeln eller liknande för game mode
-    //Padding för att knapparna skall se mer ordnade ut
-    static final int UNI_PADDING = 10;
     //Array för att plocka in värden på våra knappar
-    static JButton [] arrayJB =  new JButton[9];
+    static JButton[] arrayJB = new JButton[9];
     //För att få igång if-satser som byter vilken spelare som spelar - byt till bättre namn på denna!!
     static boolean startGame;
-    //Vårt spel
-    private static TicTacToe application;
     //Player mode JD variabler
     static JPanel players = new JPanel();
     static JLabel p1 = new JLabel(" ");
     static JLabel p2 = new JLabel(" ");
     //För att kolla om game=draw
     static int counter = 0;
+    //Vårt spel
+    private static TicTacToe application;
+    //ActionListener till våra knappar för att kunna köra spelet
+    static ActionListener listener = new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            //For-loop för att köra if-statements 9 gånger(alla knappar) som sätter X/O på knapparna och byter spelare efter varje klick.
+            for (int i = 0; i < 9; i++) {
+                if (e.getSource() == arrayJB[i]) {
+                    if (startGame) {
+                        if (arrayJB[i].getText() == "") {
+                            arrayJB[i].setText("O");
+                            outputTF.setText("X's turn");
+                            p2.setEnabled(false);
+                            p1.setEnabled(true);
+                            startGame = false;
+                            checkWinOrDraw();
+                        }
+                    } else {
+                        if (arrayJB[i].getText() == "") {
+                            arrayJB[i].setText("X");
+                            outputTF.setText("O's turn");
+                            p1.setEnabled(false);
+                            p2.setEnabled(true);
+                            startGame = true;
+                            checkWinOrDraw();
+                        }
+                    }
+                }
+            }
+        }
+    };
 
     public TicTacToe() {
         setSize(500, 500);
+
         setVisible(true);
     }
+
     public static void main(String[] args) {
         //Application eller frame
         application = new TicTacToe();
@@ -63,44 +99,21 @@ public class TicTacToe extends JFrame {
         application.add(panelTop, BorderLayout.NORTH);
 
         //For-loop som bygger våra JButtons
-        for (int i=0;i<9;i++) {
+        for (int i = 0; i < 9; i++) {
             Font f = new Font("Open sans", Font.BOLD, 50);
             arrayJB[i] = new JButton();
             arrayJB[i].addActionListener(listener);
             arrayJB[i].setFont(f);
-            arrayJB[i].setActionCommand(i+"");
+            arrayJB[i].setActionCommand(i + "");
             panelJB.add(arrayJB[i]);
         }
         application.add(panelJB);
         application.setVisible(true);
         changeGameMode();
+
     }
-    //ActionListener till våra knappar för att kunna köra spelet
-    static ActionListener listener = new ActionListener() {
-        @Override
-        public void actionPerformed(ActionEvent e) {
-        //For-loop för att köra if-statements 9 gånger(alla knappar) som sätter X/O på knapparna och byter spelare efter varje klick.
-            for (int i=0;i<9;i++){
-                if(e.getSource()==arrayJB[i]){
-                    if(startGame){
-                        if (arrayJB[i].getText()=="") {
-                            arrayJB[i].setText("O");
-                            outputTF.setText("X's turn");
-                            startGame=false;
-                            checkWinOrDraw();
-                        }
-                    }else { if (arrayJB[i].getText()==""){
-                            arrayJB[i].setText("X");
-                            outputTF.setText("O's turn");
-                            startGame=true;
-                            checkWinOrDraw();
-                        }
-                    }
-                }
-            }
-        }
-    };
-    public static void changeGameMode(){
+
+    public static void changeGameMode() {
         // skapa en panel med er custom game mode
         JDialog frame = new JDialog(application, "Game mode", true);
         JPanel dialog = new JPanel();
@@ -116,8 +129,8 @@ public class TicTacToe extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 outputTF.setText("Welcome players!");
                 outputTF.setHorizontalAlignment(SwingConstants.CENTER);
-                p1.setText("PLAYER 1");
-                p2.setText("PLAYER 2");
+                p1.setText("PLAYER 1 X");
+                p2.setText("PLAYER 2 O");
                 frame.setVisible(false);
             }
         });
@@ -127,8 +140,26 @@ public class TicTacToe extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 outputTF.setText("Welcome players!");
                 outputTF.setHorizontalAlignment(SwingConstants.CENTER);
-                p1.setText("PLAYER 1");
-                p2.setText("TERMINATOR");
+                p1.setText("PLAYER 1 X");
+                p2.setText("TERMINATOR O");
+                /*try {
+                    // Open an audio input stream.
+                    File soundFile = new File("src/Hasta.wav");
+                    //URL url = this.getClass().getClassLoader().getResource("Terminator - I ll be back.wav");
+                    //assert url != null;
+                    AudioInputStream audioIn = AudioSystem.getAudioInputStream(soundFile);
+                    // Get a sound clip resource.
+                    Clip clip = AudioSystem.getClip();
+                    // Open audio clip and load samples from the audio input stream.
+                    clip.open(audioIn);
+                    clip.start();
+                } catch (UnsupportedAudioFileException a) {
+                    a.printStackTrace();
+                } catch (IOException b) {
+                    b.printStackTrace();
+                } catch (LineUnavailableException c) {
+                    c.printStackTrace();
+                }*/
                 frame.setVisible(false);
             }
         });
@@ -139,9 +170,10 @@ public class TicTacToe extends JFrame {
         frame.setVisible(true);
 
     }
-    public static boolean checkWinOrDraw(){
+
+    public static boolean checkWinOrDraw() {
         counter++;
-        if (counter == 9){
+        if (counter == 9) {
             JDialog d = new JDialog(application, "dialog Box");
             // create a label
             JLabel l = new JLabel("It IS A DRAW. PLAY AGAIN?");
@@ -150,24 +182,25 @@ public class TicTacToe extends JFrame {
             d.setSize(200, 75);
             d.setLocation(150, 250);
             // set visibility of dialog
+
             d.setVisible(true);
         }
         if (arrayJB[1].getText() == "X" &&
-                arrayJB[4].getText() == "X"&&
+                arrayJB[4].getText() == "X" &&
                 arrayJB[7].getText() == "X" || arrayJB[0].getText() == "X" &&
-                arrayJB[4].getText() == "X"&&
-                arrayJB[8].getText() == "X" ||arrayJB[2].getText() == "X" &&
-                arrayJB[4].getText() == "X"&&
+                arrayJB[4].getText() == "X" &&
+                arrayJB[8].getText() == "X" || arrayJB[2].getText() == "X" &&
+                arrayJB[4].getText() == "X" &&
                 arrayJB[6].getText() == "X" || arrayJB[3].getText() == "X" &&
-                arrayJB[4].getText() == "X"&&
+                arrayJB[4].getText() == "X" &&
                 arrayJB[5].getText() == "X" || arrayJB[0].getText() == "X" &&
-                arrayJB[3].getText() == "X"&&
+                arrayJB[3].getText() == "X" &&
                 arrayJB[6].getText() == "X" || arrayJB[2].getText() == "X" &&
-                arrayJB[5].getText() == "X"&&
+                arrayJB[5].getText() == "X" &&
                 arrayJB[8].getText() == "X" || arrayJB[0].getText() == "X" &&
-                arrayJB[1].getText() == "X"&&
+                arrayJB[1].getText() == "X" &&
                 arrayJB[2].getText() == "X" || arrayJB[6].getText() == "X" &&
-                arrayJB[7].getText() == "X"&&
+                arrayJB[7].getText() == "X" &&
                 arrayJB[8].getText() == "X") {
 
             JDialog d = new JDialog(application, "dialog Box");
@@ -178,21 +211,21 @@ public class TicTacToe extends JFrame {
             d.setVisible(true);
 
         } else if (arrayJB[1].getText() == "O" &&
-                arrayJB[4].getText() == "O"&&
+                arrayJB[4].getText() == "O" &&
                 arrayJB[7].getText() == "O" || arrayJB[0].getText() == "O" &&
-                arrayJB[4].getText() == "O"&&
-                arrayJB[8].getText() == "O" ||arrayJB[2].getText() == "O" &&
-                arrayJB[4].getText() == "O"&&
+                arrayJB[4].getText() == "O" &&
+                arrayJB[8].getText() == "O" || arrayJB[2].getText() == "O" &&
+                arrayJB[4].getText() == "O" &&
                 arrayJB[6].getText() == "O" || arrayJB[3].getText() == "O" &&
-                arrayJB[4].getText() == "O"&&
+                arrayJB[4].getText() == "O" &&
                 arrayJB[5].getText() == "O" || arrayJB[0].getText() == "O" &&
-                arrayJB[3].getText() == "O"&&
+                arrayJB[3].getText() == "O" &&
                 arrayJB[6].getText() == "O" || arrayJB[2].getText() == "O" &&
-                arrayJB[5].getText() == "O"&&
+                arrayJB[5].getText() == "O" &&
                 arrayJB[8].getText() == "O" || arrayJB[0].getText() == "O" &&
-                arrayJB[1].getText() == "O"&&
+                arrayJB[1].getText() == "O" &&
                 arrayJB[2].getText() == "O" || arrayJB[6].getText() == "O" &&
-                arrayJB[7].getText() == "O"&&
+                arrayJB[7].getText() == "O" &&
                 arrayJB[8].getText() == "O") {
 
             JDialog d = new JDialog(application, "dialog Box");
@@ -203,5 +236,24 @@ public class TicTacToe extends JFrame {
             d.setVisible(true);
         }
         return true; //Behöver vi skicka tillbaka nåt eller ska vi göra denna metod void?
+    }
+    public void Sound(){
+        try {
+            // Open an audio input stream.
+            URL url = this.getClass().getClassLoader().getResource("Hasta.wav");
+            assert url != null;
+            AudioInputStream audioIn = AudioSystem.getAudioInputStream(url);
+            // Get a sound clip resource.
+            Clip clip = AudioSystem.getClip();
+            // Open audio clip and load samples from the audio input stream.
+            clip.open(audioIn);
+            clip.start();
+        } catch (UnsupportedAudioFileException a) {
+            a.printStackTrace();
+        } catch (IOException b) {
+            b.printStackTrace();
+        } catch (LineUnavailableException c) {
+            c.printStackTrace();
+        }
     }
 }
