@@ -1,26 +1,83 @@
-/*public class CheckWinOrDraw {
-  // everything here will be changed by me to fit your guys design once we talk. 
-  
-  
-  // int counter ska ligga på rad 12
-      static int counter = 0;
-// counter ska ligga på rad 58 precis ovanför snoop ifsatsen
-  counter++;
- //if satsen ska ligga på rad 69
-  if (counter == 9){
-         JDialog d = new JDialog(application, "dialog Box");
+ public static boolean checkWinOrDraw(){
+        counter++;
+        if (counter == 9){
+            JDialog d = new JDialog(application, "dialog Box");
 
-         // creates a label for the dialog box
-         JLabel l = new JLabel("this is a Game over. Lets see who won");
+            // create a label
+            JLabel l = new JLabel("It IS A DRAW. PLAY AGAIN?");
 
-         d.add(l);
+            d.add(l);
 
-         // setsize of dialog, we can decide the size later
-         d.setSize(100, 100);
+            // setsize of dialog
+            d.setSize(100, 100);
 
-         // set visibility of dialog
-         d.setVisible(true);
-         
-     }
-}
-*/
+            // set visibility of dialog
+            d.setVisible(true);
+        }
+        if (arrayJB[1].getText() == "X" &&
+                arrayJB[4].getText() == "X"&&
+                arrayJB[7].getText() == "X" || arrayJB[0].getText() == "X" &&
+                arrayJB[4].getText() == "X"&&
+                arrayJB[8].getText() == "X" ||arrayJB[2].getText() == "X" &&
+                arrayJB[4].getText() == "X"&&
+                arrayJB[6].getText() == "X" || arrayJB[3].getText() == "X" &&
+                arrayJB[4].getText() == "X"&&
+                arrayJB[5].getText() == "X" || arrayJB[0].getText() == "X" &&
+                arrayJB[3].getText() == "X"&&
+                arrayJB[6].getText() == "X" || arrayJB[2].getText() == "X" &&
+                arrayJB[5].getText() == "X"&&
+                arrayJB[8].getText() == "X" || arrayJB[0].getText() == "X" &&
+                arrayJB[1].getText() == "X"&&
+                arrayJB[2].getText() == "X" || arrayJB[6].getText() == "X" &&
+                arrayJB[7].getText() == "X"&&
+                arrayJB[8].getText() == "X") {
+            // now the code begins this is to make spottin it easier
+            JDialog d = new JDialog(application, "dialog Box");
+
+            // create a label
+            JLabel l = new JLabel("Player X has won!");
+
+            d.add(l);
+
+            // setsize of dialog
+            d.setSize(100, 100);
+
+            // set visibility of dialog
+            d.setVisible(true);
+
+ } else if (arrayJB[1].getText() == "O" &&
+                arrayJB[4].getText() == "O"&&
+                arrayJB[7].getText() == "O" || arrayJB[0].getText() == "O" &&
+                arrayJB[4].getText() == "O"&&
+                arrayJB[8].getText() == "O" ||arrayJB[2].getText() == "O" &&
+                arrayJB[4].getText() == "O"&&
+                arrayJB[6].getText() == "O" || arrayJB[3].getText() == "O" &&
+                arrayJB[4].getText() == "O"&&
+                arrayJB[5].getText() == "O" || arrayJB[0].getText() == "O" &&
+                arrayJB[3].getText() == "O"&&
+                arrayJB[6].getText() == "O" || arrayJB[2].getText() == "O" &&
+                arrayJB[5].getText() == "O"&&
+                arrayJB[8].getText() == "O" || arrayJB[0].getText() == "O" &&
+                arrayJB[1].getText() == "O"&&
+                arrayJB[2].getText() == "O" || arrayJB[6].getText() == "O" &&
+                arrayJB[7].getText() == "O"&&
+                arrayJB[8].getText() == "O") {
+            // now the code begins this is to make spottin it easier
+            JDialog d = new JDialog(application, "dialog Box");
+
+            // create a label
+            JLabel l = new JLabel("Player O has won!");
+
+            d.add(l);
+
+            // setsize of dialog
+            d.setSize(100, 100);
+
+            // set visibility of dialog
+            d.setVisible(true);
+            
+        }
+
+
+        return true;
+    }
