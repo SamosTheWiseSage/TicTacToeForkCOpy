@@ -4,13 +4,11 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import static java.lang.Integer.parseInt;
-
 public class TicTacToe extends JFrame {
-    //TextField som outputar meddelanden till spelare
+    //TextField som visar meddelanden till spelare
     static JTextField outputTF;
-    //Andreas? hehehe
-    static int gameMode = 0; //använd variabeln eller likande för gamemode
+    //Andreas, ska vi använda denna?
+    static int gameMode = 0; //använd variabeln eller liknande för game mode
     //Padding för att knapparna skall se mer ordnade ut
     static final int UNI_PADDING = 10;
     //Array för att plocka in värden på våra knappar
@@ -19,9 +17,11 @@ public class TicTacToe extends JFrame {
     static boolean startGame;
     //Vårt spel
     private static TicTacToe application;
+    //Player mode JD variabler
     static JPanel players = new JPanel();
     static JLabel p1 = new JLabel(" ");
     static JLabel p2 = new JLabel(" ");
+    //För att kolla om game=draw
     static int counter = 0;
 
     public TicTacToe() {
@@ -41,13 +41,13 @@ public class TicTacToe extends JFrame {
         panelJB.setBackground(Color.lightGray);
         panelJB.setSize(300, 300);
 
-        //Gridlayout för att JButtons skall displayas rätt
+        //Gridlayout för att JButtons skall visas rätt
         GridLayout gl = new GridLayout(3, 3);
         gl.setHgap(UNI_PADDING);
         gl.setVgap(UNI_PADDING);
         panelJB.setLayout(gl);
 
-        //Textfield för att displaya vems tur det är och så vidare.
+        //TextField för att visa vems tur det är och så vidare.
         outputTF = new JTextField("TicTacToe");
         outputTF.setHorizontalAlignment(SwingConstants.CENTER);
         Font bigFont = outputTF.getFont().deriveFont(Font.PLAIN, 30f);
@@ -87,7 +87,6 @@ public class TicTacToe extends JFrame {
                             arrayJB[i].setText("O");
                             outputTF.setText("X's turn");
                             startGame=false;
-                            //Här måste vi bygga klart metoden för att kolla om X/O har vunnit, förlorat eller fått slut på drag
                             checkWinOrDraw();
                         }
                     }else { if (arrayJB[i].getText()==""){
@@ -101,7 +100,6 @@ public class TicTacToe extends JFrame {
             }
         }
     };
-
     public static void changeGameMode(){
         // skapa en panel med er custom game mode
         JDialog frame = new JDialog(application, "Game mode", true);
@@ -141,7 +139,6 @@ public class TicTacToe extends JFrame {
         frame.setVisible(true);
 
     }
-    // GETA YOU GO HERE
     public static boolean checkWinOrDraw(){
         counter++;
         if (counter == 9){
@@ -149,8 +146,9 @@ public class TicTacToe extends JFrame {
             // create a label
             JLabel l = new JLabel("It IS A DRAW. PLAY AGAIN?");
             d.add(l);
-            // setsize of dialog
-            d.setSize(100, 100);
+            //setSize and location of dialog
+            d.setSize(200, 75);
+            d.setLocation(150, 250);
             // set visibility of dialog
             d.setVisible(true);
         }
@@ -171,14 +169,12 @@ public class TicTacToe extends JFrame {
                 arrayJB[2].getText() == "X" || arrayJB[6].getText() == "X" &&
                 arrayJB[7].getText() == "X"&&
                 arrayJB[8].getText() == "X") {
-            // now the code begins this is to make spottin it easier
+
             JDialog d = new JDialog(application, "dialog Box");
-            // create a label
             JLabel l = new JLabel("Player X has won!");
             d.add(l);
-            // setsize of dialog
-            d.setSize(100, 100);
-            // set visibility of dialog
+            d.setSize(200, 75);
+            d.setLocation(150, 250);
             d.setVisible(true);
 
         } else if (arrayJB[1].getText() == "O" &&
@@ -198,17 +194,14 @@ public class TicTacToe extends JFrame {
                 arrayJB[2].getText() == "O" || arrayJB[6].getText() == "O" &&
                 arrayJB[7].getText() == "O"&&
                 arrayJB[8].getText() == "O") {
-            // now the code begins this is to make spottin it easier
+
             JDialog d = new JDialog(application, "dialog Box");
-            // create a label
             JLabel l = new JLabel("Player O has won!");
             d.add(l);
-            // setsize of dialog
-            d.setSize(100, 100);
-            // set visibility of dialog
+            d.setSize(200, 75);
+            d.setLocation(150, 250);
             d.setVisible(true);
-
         }
-        return true;
+        return true; //Behöver vi skicka tillbaka nåt eller ska vi göra denna metod void?
     }
 }
