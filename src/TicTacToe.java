@@ -4,7 +4,6 @@ import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 
@@ -171,7 +170,7 @@ public class TicTacToe extends JFrame {
 
     }
 
-    public static boolean checkWinOrDraw() {
+    public static void checkWinOrDraw() {
         counter++;
         if (counter == 9) {
             JDialog d = new JDialog(application, "dialog Box");
@@ -185,49 +184,42 @@ public class TicTacToe extends JFrame {
 
             d.setVisible(true);
         }
-        if (arrayJB[1].getText() == "X" &&
-                arrayJB[4].getText() == "X" &&
-                arrayJB[7].getText() == "X" || arrayJB[0].getText() == "X" &&
-                arrayJB[4].getText() == "X" &&
-                arrayJB[8].getText() == "X" || arrayJB[2].getText() == "X" &&
-                arrayJB[4].getText() == "X" &&
-                arrayJB[6].getText() == "X" || arrayJB[3].getText() == "X" &&
-                arrayJB[4].getText() == "X" &&
-                arrayJB[5].getText() == "X" || arrayJB[0].getText() == "X" &&
-                arrayJB[3].getText() == "X" &&
-                arrayJB[6].getText() == "X" || arrayJB[2].getText() == "X" &&
-                arrayJB[5].getText() == "X" &&
-                arrayJB[8].getText() == "X" || arrayJB[0].getText() == "X" &&
-                arrayJB[1].getText() == "X" &&
-                arrayJB[2].getText() == "X" || arrayJB[6].getText() == "X" &&
-                arrayJB[7].getText() == "X" &&
-                arrayJB[8].getText() == "X") {
-
+        //Dessa är vinnarkombinationerna i en array
+        int[][] winningCombinations = {
+                {1, 4, 7}, {0, 4, 8}, {2, 4, 6},
+                {3, 4, 5}, {0, 3, 6}, {2, 5, 8},
+                {0, 1, 2}, {6, 7, 8}
+        };
+        //Initiatar som false för att kunna sätta true om kombinationen är en vinnarkombination
+        boolean isWinnerX = false;
+        //If-satser som letar efter vinnarkombinationer
+        for (int[] combination : winningCombinations) {
+            if (arrayJB[combination[0]].getText().equals("X") &&
+                    arrayJB[combination[1]].getText().equals("X") &&
+                    arrayJB[combination[2]].getText().equals("X")) {
+                isWinnerX = true;
+                break; // If a win is found, no need to check further
+            }
+        }
+        //Här lägger vi in vår vinnarmetod
+        if (isWinnerX) {
             JDialog d = new JDialog(application, "dialog Box");
             JLabel l = new JLabel("Player X has won!");
             d.add(l);
             d.setSize(200, 75);
             d.setLocation(150, 250);
             d.setVisible(true);
-
-        } else if (arrayJB[1].getText() == "O" &&
-                arrayJB[4].getText() == "O" &&
-                arrayJB[7].getText() == "O" || arrayJB[0].getText() == "O" &&
-                arrayJB[4].getText() == "O" &&
-                arrayJB[8].getText() == "O" || arrayJB[2].getText() == "O" &&
-                arrayJB[4].getText() == "O" &&
-                arrayJB[6].getText() == "O" || arrayJB[3].getText() == "O" &&
-                arrayJB[4].getText() == "O" &&
-                arrayJB[5].getText() == "O" || arrayJB[0].getText() == "O" &&
-                arrayJB[3].getText() == "O" &&
-                arrayJB[6].getText() == "O" || arrayJB[2].getText() == "O" &&
-                arrayJB[5].getText() == "O" &&
-                arrayJB[8].getText() == "O" || arrayJB[0].getText() == "O" &&
-                arrayJB[1].getText() == "O" &&
-                arrayJB[2].getText() == "O" || arrayJB[6].getText() == "O" &&
-                arrayJB[7].getText() == "O" &&
-                arrayJB[8].getText() == "O") {
-
+        }
+        boolean isWinnerO=false;
+        for (int[] combination : winningCombinations) {
+            if (arrayJB[combination[0]].getText().equals("O") &&
+                    arrayJB[combination[1]].getText().equals("O") &&
+                    arrayJB[combination[2]].getText().equals("O")) {
+                isWinnerO = true;
+                break;
+            }
+        }
+        if (isWinnerO) {
             JDialog d = new JDialog(application, "dialog Box");
             JLabel l = new JLabel("Player O has won!");
             d.add(l);
@@ -235,9 +227,9 @@ public class TicTacToe extends JFrame {
             d.setLocation(150, 250);
             d.setVisible(true);
         }
-        return true; //Behöver vi skicka tillbaka nåt eller ska vi göra denna metod void?
     }
-    public void Sound(){
+
+    public void Sound() {
         try {
             // Open an audio input stream.
             URL url = this.getClass().getClassLoader().getResource("Hasta.wav");
