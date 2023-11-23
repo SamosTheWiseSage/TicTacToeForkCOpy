@@ -10,22 +10,20 @@ import java.io.IOException;
 public class TicTacToe extends JFrame {
     //Padding för att knapparna skall se mer ordnade ut
     static final int UNI_PADDING = 10;
+    public static String winner;
+    public static String sound;
     //TextField som visar meddelanden till spelare
     static JTextField outputTF;
-    //Andreas, ska vi använda denna?
-    static int gameMode = 0; //använd variabeln eller liknande för game mode
     //Array för att plocka in värden på våra knappar
     static JButton[] arrayJB = new JButton[9];
     //För att få igång if-satser som byter vilken spelare som spelar - byt till bättre namn på denna!!
-    static boolean startGame;
+    static boolean playerGo;
     //Player mode JD variabler
     static JPanel players = new JPanel();
     static JLabel p1 = new JLabel(" ");
     static JLabel p2 = new JLabel(" ");
     //För att kolla om game=draw
     static int counter = 0;
-    public static String winner;
-    public static String sound;
     //Vårt spel
     private static TicTacToe application;
     //ActionListener till våra knappar för att kunna köra spelet
@@ -35,22 +33,20 @@ public class TicTacToe extends JFrame {
             //For-loop för att köra if-statements 9 gånger(alla knappar) som sätter X/O på knapparna och byter spelare efter varje klick.
             for (int i = 0; i < 9; i++) {
                 if (e.getSource() == arrayJB[i]) {
-                    if (startGame) {
+                    if (playerGo) {
                         if (arrayJB[i].getText() == "") {
                             arrayJB[i].setText("O");
-                            outputTF.setText("X's turn");
                             p2.setEnabled(false);
                             p1.setEnabled(true);
-                            startGame = false;
+                            playerGo = false;
                             checkWinOrDraw();
                         }
                     } else {
                         if (arrayJB[i].getText() == "") {
                             arrayJB[i].setText("X");
-                            outputTF.setText("O's turn");
                             p1.setEnabled(false);
                             p2.setEnabled(true);
-                            startGame = true;
+                            playerGo = true;
                             checkWinOrDraw();
                         }
                     }
@@ -61,7 +57,6 @@ public class TicTacToe extends JFrame {
 
     public TicTacToe() {
         setSize(500, 500);
-
         setVisible(true);
     }
 
@@ -101,7 +96,7 @@ public class TicTacToe extends JFrame {
 
         //For-loop som bygger våra JButtons
         for (int i = 0; i < 9; i++) {
-            Font f = new Font("Open sans", Font.BOLD, 50);
+            Font f = new Font("Open sans", Font.BOLD, 75);
             arrayJB[i] = new JButton();
             arrayJB[i].addActionListener(listener);
             arrayJB[i].setFont(f);
@@ -123,12 +118,10 @@ public class TicTacToe extends JFrame {
         dialog.setSize(100, 100);
         LayoutManager FlowLayout = new FlowLayout();
         dialog.setLayout(FlowLayout);
-        dialog.setSize(100, 100);
         JButton gameMode1 = new JButton("PvP");
         gameMode1.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                outputTF.setText("Welcome players!");
                 outputTF.setHorizontalAlignment(SwingConstants.CENTER);
                 p1.setText("PLAYER 1 X");
                 p2.setText("PLAYER 2 O");
@@ -141,7 +134,6 @@ public class TicTacToe extends JFrame {
         gameMode2.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                outputTF.setText("Welcome players!");
                 outputTF.setHorizontalAlignment(SwingConstants.CENTER);
                 p1.setText("PLAYER 1 X");
                 p2.setText("TERMINATOR O");
@@ -155,7 +147,6 @@ public class TicTacToe extends JFrame {
         frame.setResizable(false);
         frame.pack();
         frame.setVisible(true);
-
     }
 
     public static void checkWinOrDraw() {
@@ -178,7 +169,7 @@ public class TicTacToe extends JFrame {
                     arrayJB[combination[1]].getText().equals("X") &&
                     arrayJB[combination[2]].getText().equals("X")) {
                 isWinnerX = true;
-                break; // If a win is found, no need to check further
+                break;
             }
         }
         //Här lägger vi in vår vinnarmetod
@@ -225,38 +216,13 @@ public class TicTacToe extends JFrame {
         JLabel l = new JLabel(winner + "! Want to play again?");
         d.add(l);
         d.setLayout(new FlowLayout());
-        JButton yes = new JButton("Yes");
-        d.add(yes);
         sound = "src/WOHO.wav";
         Sound();
-        yes.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                Reset();
-                d.setVisible(false);
-            }
-        });
-        JButton no = new JButton("No");
-        d.add(no);
-        no.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                application.setVisible(false);
-                Sound();
-            }
-        });
         d.setSize(250, 100);
         d.setLocation(125, 250);
         for (int i = 0; i < 9; i++) {
             arrayJB[i].setEnabled(false);
         }
         d.setVisible(true);
-    }
-    public static void Reset() {
-        counter = 0;
-        for (int i = 0; i < 9; i++) {
-            arrayJB[i].setEnabled(true);
-            arrayJB[i].setText("");
-        }
     }
 }
