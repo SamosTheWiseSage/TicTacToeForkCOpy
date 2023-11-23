@@ -4,8 +4,8 @@ import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 import java.io.IOException;
-import java.net.URL;
 
 public class TicTacToe extends JFrame {
     //Padding för att knapparna skall se mer ordnade ut
@@ -24,6 +24,8 @@ public class TicTacToe extends JFrame {
     static JLabel p2 = new JLabel(" ");
     //För att kolla om game=draw
     static int counter = 0;
+    public static String winner;
+    public static String sound;
     //Vårt spel
     private static TicTacToe application;
     //ActionListener till våra knappar för att kunna köra spelet
@@ -130,6 +132,8 @@ public class TicTacToe extends JFrame {
                 outputTF.setHorizontalAlignment(SwingConstants.CENTER);
                 p1.setText("PLAYER 1 X");
                 p2.setText("PLAYER 2 O");
+                sound = "src/LETSGO.wav";
+                Sound();
                 frame.setVisible(false);
             }
         });
@@ -141,24 +145,8 @@ public class TicTacToe extends JFrame {
                 outputTF.setHorizontalAlignment(SwingConstants.CENTER);
                 p1.setText("PLAYER 1 X");
                 p2.setText("TERMINATOR O");
-                /*try {
-                    // Open an audio input stream.
-                    File soundFile = new File("src/Hasta.wav");
-                    //URL url = this.getClass().getClassLoader().getResource("Terminator - I ll be back.wav");
-                    //assert url != null;
-                    AudioInputStream audioIn = AudioSystem.getAudioInputStream(soundFile);
-                    // Get a sound clip resource.
-                    Clip clip = AudioSystem.getClip();
-                    // Open audio clip and load samples from the audio input stream.
-                    clip.open(audioIn);
-                    clip.start();
-                } catch (UnsupportedAudioFileException a) {
-                    a.printStackTrace();
-                } catch (IOException b) {
-                    b.printStackTrace();
-                } catch (LineUnavailableException c) {
-                    c.printStackTrace();
-                }*/
+                sound = "src/LIVE.wav";
+                Sound();
                 frame.setVisible(false);
             }
         });
@@ -173,16 +161,8 @@ public class TicTacToe extends JFrame {
     public static void checkWinOrDraw() {
         counter++;
         if (counter == 9) {
-            JDialog d = new JDialog(application, "dialog Box");
-            // create a label
-            JLabel l = new JLabel("It IS A DRAW. PLAY AGAIN?");
-            d.add(l);
-            //setSize and location of dialog
-            d.setSize(200, 75);
-            d.setLocation(150, 250);
-            // set visibility of dialog
-
-            d.setVisible(true);
+            winner = "It's a draw";
+            Winner();
         }
         //Dessa är vinnarkombinationerna i en array
         int[][] winningCombinations = {
@@ -203,14 +183,10 @@ public class TicTacToe extends JFrame {
         }
         //Här lägger vi in vår vinnarmetod
         if (isWinnerX) {
-            JDialog d = new JDialog(application, "dialog Box");
-            JLabel l = new JLabel("Player X has won!");
-            d.add(l);
-            d.setSize(200, 75);
-            d.setLocation(150, 250);
-            d.setVisible(true);
+            winner = "Player X has won";
+            Winner();
         }
-        boolean isWinnerO=false;
+        boolean isWinnerO = false;
         for (int[] combination : winningCombinations) {
             if (arrayJB[combination[0]].getText().equals("O") &&
                     arrayJB[combination[1]].getText().equals("O") &&
@@ -220,21 +196,16 @@ public class TicTacToe extends JFrame {
             }
         }
         if (isWinnerO) {
-            JDialog d = new JDialog(application, "dialog Box");
-            JLabel l = new JLabel("Player O has won!");
-            d.add(l);
-            d.setSize(200, 75);
-            d.setLocation(150, 250);
-            d.setVisible(true);
+            winner = "Player O has won";
+            Winner();
         }
     }
 
-    public void Sound() {
+    public static void Sound() {
         try {
             // Open an audio input stream.
-            URL url = this.getClass().getClassLoader().getResource("Hasta.wav");
-            assert url != null;
-            AudioInputStream audioIn = AudioSystem.getAudioInputStream(url);
+            File soundFile = new File(sound);
+            AudioInputStream audioIn = AudioSystem.getAudioInputStream(soundFile);
             // Get a sound clip resource.
             Clip clip = AudioSystem.getClip();
             // Open audio clip and load samples from the audio input stream.
@@ -247,5 +218,20 @@ public class TicTacToe extends JFrame {
         } catch (LineUnavailableException c) {
             c.printStackTrace();
         }
+    }
+
+    public static void Winner() {
+        JDialog d = new JDialog(application, "dialog Box");
+        JLabel l = new JLabel(winner + "! Want to play again?");
+        d.add(l);
+        d.setLayout(new FlowLayout());
+        sound = "src/WOHO.wav";
+        Sound();
+        d.setSize(250, 100);
+        d.setLocation(125, 250);
+        for (int i = 0; i < 9; i++) {
+            arrayJB[i].setEnabled(false);
+        }
+        d.setVisible(true);
     }
 }
