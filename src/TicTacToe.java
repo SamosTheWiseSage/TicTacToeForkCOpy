@@ -216,13 +216,39 @@ public class TicTacToe extends JFrame {
         JLabel l = new JLabel(winner + "! Want to play again?");
         d.add(l);
         d.setLayout(new FlowLayout());
+        JButton yes = new JButton("Yes");
+        d.add(yes);
         sound = "src/WOHO.wav";
         Sound();
+        yes.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Reset();
+                d.setVisible(false);
+            }
+        });
+        JButton no = new JButton("No");
+        d.add(no);
+        no.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                application.setVisible(false);
+                sound = "src/Hasta.wav";
+                Sound();
+            }
+        });
         d.setSize(250, 100);
         d.setLocation(125, 250);
         for (int i = 0; i < 9; i++) {
             arrayJB[i].setEnabled(false);
         }
         d.setVisible(true);
+    }
+    public static void Reset() {
+        counter = 0;
+        for (int i = 0; i < 9; i++) {
+            arrayJB[i].setEnabled(true);
+            arrayJB[i].setText("");
+        }
     }
 }
