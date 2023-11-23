@@ -34,7 +34,7 @@ public class TicTacToe extends JFrame {
             for (int i = 0; i < 9; i++) {
                 if (e.getSource() == arrayJB[i]) {
                     if (playerGo) {
-                        if (arrayJB[i].getText() == "") {
+                        if ((arrayJB[i].getText().isEmpty())){
                             arrayJB[i].setText("O");
                             p2.setEnabled(false);
                             p1.setEnabled(true);
@@ -42,7 +42,7 @@ public class TicTacToe extends JFrame {
                             checkWinOrDraw();
                         }
                     } else {
-                        if (arrayJB[i].getText() == "") {
+                        if ((arrayJB[i].getText().isEmpty())) {
                             arrayJB[i].setText("X");
                             p1.setEnabled(false);
                             p2.setEnabled(true);
@@ -162,31 +162,31 @@ public class TicTacToe extends JFrame {
                 {0, 1, 2}, {6, 7, 8}
         };
         //Initiatar som false för att kunna sätta true om kombinationen är en vinnarkombination
-        boolean isWinnerX = false;
+        boolean winnerIsX = false;
         //If-satser som letar efter vinnarkombinationer
         for (int[] combination : winningCombinations) {
             if (arrayJB[combination[0]].getText().equals("X") &&
                     arrayJB[combination[1]].getText().equals("X") &&
                     arrayJB[combination[2]].getText().equals("X")) {
-                isWinnerX = true;
+                winnerIsX = true;
                 break;
             }
         }
         //Här lägger vi in vår vinnarmetod
-        if (isWinnerX) {
+        if (winnerIsX) {
             winner = "Player X has won";
             Winner();
         }
-        boolean isWinnerO = false;
+        boolean winnerIsO = false;
         for (int[] combination : winningCombinations) {
             if (arrayJB[combination[0]].getText().equals("O") &&
                     arrayJB[combination[1]].getText().equals("O") &&
                     arrayJB[combination[2]].getText().equals("O")) {
-                isWinnerO = true;
+                winnerIsO = true;
                 break;
             }
         }
-        if (isWinnerO) {
+        if (winnerIsO) {
             winner = "Player O has won";
             Winner();
         }
@@ -232,7 +232,7 @@ public class TicTacToe extends JFrame {
         no.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                application.setVisible(false);
+                application.dispose();
                 sound = "src/Hasta.wav";
                 Sound();
             }
