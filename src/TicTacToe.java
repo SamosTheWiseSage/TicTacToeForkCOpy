@@ -10,7 +10,7 @@ import java.io.IOException;
 public class TicTacToe extends JFrame {
     //Padding för att knapparna skall se mer ordnade ut
     static final int UNI_PADDING = 10;
-    public static String winner;
+    public s d cdknsd vklje vljnvtatic String winner;
     public static String sound;
     //TextField som visar meddelanden till spelare
     static JTextField outputTF;
